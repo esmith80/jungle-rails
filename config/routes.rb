@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
 
-  root to: 'products#index'
+  root 'products#index'
 
   resources :products, only: [:index, :show]
   resources :categories, only: [:show]
-
+  
   resource :cart, only: [:show] do
     post   :add_item
     post   :remove_item
@@ -12,10 +12,26 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:create, :show]
 
+  # I chose this line of code for routing to the About Us page
+  get 'about', to: 'about#show'
+
+  #these other options work too
+  # option 1 --
+  # get 'about', action: :show, controller: 'about'
+  # option 2 -- not sure why this works (why does the do block have to be there?)
+  # resources :about, only: [:show] do
+  #   root to: 'about#show'
+  # end
+  # option 3 -- this DOES NOT work but if you tinker with the about_path variable and index variable it does
+  # resources :about, path: '/about'
+  
   namespace :admin do
     root to: 'dashboard#show'
     resources :products, except: [:edit, :update, :show]
   end
+
+  
+  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
