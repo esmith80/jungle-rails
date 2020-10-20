@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Visitor navigates to a Product Details page", type: :feature, js: true do
+RSpec.feature "Add to Cart", type: :feature, js: true do
   
   # SETUP
   before :each do
@@ -17,19 +17,16 @@ RSpec.feature "Visitor navigates to a Product Details page", type: :feature, js:
     end
   end
 
-  scenario "correct product detail page is displayed after clicking product partial" do
-    skip "product details skipped as tests already passed"
+  scenario "clicking the 'Add to Cart' button increases their cart by one" do
     # ACT
-    visit root_path
+    visit root_path    
+    expect(page).to have_content('My Cart (0)')
     
-    first('article.product').find_link('Details').click
-
+    first('button').click
     # DEBUG
     # save_and_open_screenshot
-    # puts page.html
 
     # VERIFY
-    expect(page).to have_css 'article.product-detail', count: 1
-    expect(page).to have_content('Quantity')
+    expect(page).to have_content('My Cart (1)')
   end
 end
