@@ -5,7 +5,8 @@ RSpec.describe User, type: :model do
   describe 'Validations' do
   it 'should create a new user with all fields completed' do
     @user = User.new(
-    name: "Alice Test",
+    first_name: "Alice",
+    last_name: "Test",
     email: "test@test.com",
     password:"password",
     password_confirmation:"password"
@@ -14,20 +15,34 @@ RSpec.describe User, type: :model do
     expect(@user.errors.full_messages).to be_empty
   end
 
-  it 'should receive an error message if name is not present' do
+  it 'should receive an error message if first name is not present' do
     @user = User.new(
-      name: nil,
+      first_name: nil,
+      last_name: "Test",
       email: "test@test.com",
       password:"password",
       password_confirmation:"password"
       )
     @user.save
-    expect(@user.errors.full_messages).to include("Name can't be blank")
+    expect(@user.errors.full_messages).to include("First name can't be blank")
+  end
+
+  it 'should receive an error message if last name is not present' do
+    @user = User.new(
+      first_name: "Alice",
+      last_name: nil,
+      email: "test@test.com",
+      password:"password",
+      password_confirmation:"password"
+      )
+    @user.save
+    expect(@user.errors.full_messages).to include("Last name can't be blank")
   end
   
   it 'should receive an error message if email is not present' do
     @user = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: nil,
       password:"password",
       password_confirmation:"password"
@@ -38,14 +53,16 @@ RSpec.describe User, type: :model do
 
   it 'should receive and error if email is already in database' do
     @user = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: "test@test.com",
       password:"password",
       password_confirmation:"password"
       )
     @user.save
     @user_two = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: "test@test.com",
       password:"password",
       password_confirmation:"password"
@@ -56,14 +73,16 @@ RSpec.describe User, type: :model do
 
   it 'should receive and error if email is already in database' do
     @user = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: "test@test.com",
       password:"password",
       password_confirmation:"password"
       )
     @user.save
     @user_two = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: "test@TEST.com",
       password:"password",
       password_confirmation:"password"
@@ -74,7 +93,8 @@ RSpec.describe User, type: :model do
 
   it 'should receive an error message if password length is less than 8 characters' do
     @user = User.new(
-      name: nil,
+      first_name: nil,
+      last_name: nil,
       email: "test@test.com",
       password:"passwor",
       password_confirmation:"passwor"
@@ -88,7 +108,8 @@ end
     # examples for this class method here
     it 'should return a user if authenticated successfully' do
       @user = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: "test@test.com",
       password:"password",
       password_confirmation:"password"
@@ -101,7 +122,8 @@ end
 
     it 'should return nil if authentication fails' do
       @user = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: "test@test.com",
       password:"password",
       password_confirmation:"password"
@@ -114,7 +136,8 @@ end
 
     it 'should allow extra spaces in login email' do
       @user = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: "test@test.com",
       password:"password",
       password_confirmation:"password"
@@ -127,7 +150,8 @@ end
 
     it 'email validation should be case insensitive when logging in' do
       @user = User.new(
-      name: "Alice Test",
+      first_name: "Alice",
+      last_name: "Test",
       email: "test@test.com",
       password:"password",
       password_confirmation:"password"
